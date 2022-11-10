@@ -13,20 +13,17 @@ from datetime import datetime
 
 
 # Función de inserción de observación
-def inserta_observacion(paciente:Reference, codigo:CodeableConcept, cantidad:Quantity, tiempo:datetime=None):
+def inserta_observacion(paciente:Reference, codigo:CodeableConcept, cantidad:Quantity, tiempo:datetime=datetime.now()):
     """
     Inserta una nueva observación
     """
-
-    # Fecha y hora de la observación
-    tiempo_obs = datetime.now() if tiempo is None else tiempo
 
     # Construcción de la observación
     obs = Observation.construct(status="final")
     obs.subject = paciente
     obs.code = codigo
     obs.valueQuantity = cantidad
-    obs.effectiveDateTime = tiempo_obs
+    obs.effectiveDateTime = tiempo
 
     print(obs.json())
 
@@ -66,14 +63,14 @@ codigo_talla.coding.append(cod)
 
 # Cantidad / valor de la observación
 cant = Quantity.construct()
-cant.value = "87.2"
+cant.value = "88.5"
 cant.unit = "kg"
 
 inserta_observacion(paciente, codigo_peso, cant)
 
 # Cantidad / valor de la observación
 cant = Quantity.construct()
-cant.value = "194"
+cant.value = "195"
 cant.unit = "cm"
 
 inserta_observacion(paciente, codigo_talla, cant)
