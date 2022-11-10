@@ -12,6 +12,23 @@ from config import Configuracion as conf
 from datetime import datetime
 
 
+# Función de construcción de concepto codificable
+def concepto_codif(codigo:str, glosa:str, sistema:str="http://loinc.org") -> CodeableConcept:
+    """
+    Construye un concepto codificable. Sistema por defecto es LOINC
+    """
+
+    concepto = CodeableConcept.construct()
+    concepto.coding = list()
+    cod = Coding.construct()
+    cod.system = sistema
+    cod.code = codigo
+    cod.display = glosa
+    concepto.coding.append(cod)
+
+    return concepto
+
+
 # Función de inserción de observación
 def inserta_observacion(paciente:Reference, codigo:CodeableConcept, cantidad:Quantity, tiempo:datetime=datetime.now()):
     """
@@ -43,34 +60,16 @@ paciente = Reference.construct()
 paciente.type = "Patient"
 paciente.reference = "/Patient/2655"
 
-# Concepto codificable: peso
-codigo_peso = CodeableConcept.construct()
-codigo_peso.coding = list()
-cod = Coding.construct()
-cod.system = "http://loinc.org"
-cod.code = "29463-7"
-cod.display = "Peso"
-codigo_peso.coding.append(cod)
-
-# Concepto codificable: talla
-codigo_talla = CodeableConcept.construct()
-codigo_talla.coding = list()
-cod = Coding.construct()
-cod.system = "http://loinc.org"
-cod.code = "8302-2"
-cod.display = "Talla"
-codigo_talla.coding.append(cod)
-
 # Cantidad / valor de la observación
 cant = Quantity.construct()
 cant.value = "88.5"
 cant.unit = "kg"
 
-inserta_observacion(paciente, codigo_peso, cant)
+inserta_observacion(paciente, concepto_codif("29463-7", "Peso"), cant)
 
 # Cantidad / valor de la observación
 cant = Quantity.construct()
 cant.value = "195"
 cant.unit = "cm"
 
-inserta_observacion(paciente, codigo_talla, cant)
+inserta_observacion(paciente, concepto_codif("8302-2", "Talla"), cant)
