@@ -13,4 +13,5 @@ r = requests.get(f"{conf.url_base}/Observation",
     )
 
 print(f"STATUS: {r.status_code}")
+print("RESPUESTA:")
 print(r.text)
