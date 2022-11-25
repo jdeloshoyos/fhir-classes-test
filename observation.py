@@ -46,7 +46,6 @@ def inserta_observacion(paciente:Reference, codigo:CodeableConcept, cantidad:Qua
 
     r = requests.post(f"{conf.url_base}/Observation",
         data=obs.json(),
-        #json=obs.dict(),
         auth=HTTPBasicAuth(conf.usuario, conf.password),
         headers={"Content-Type": "application/fhir+json"})
 

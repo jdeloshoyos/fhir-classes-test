@@ -6,6 +6,8 @@ from fhir.resources.humanname import HumanName
 from fhir.resources.identifier import Identifier
 from fhir.resources.coding import Coding
 from fhir.resources.codeableconcept import CodeableConcept
+from fhir.resources.address import Address
+from fhir.resources.contactpoint import ContactPoint
 from datetime import date
 import requests
 from requests.auth import HTTPBasicAuth
@@ -105,6 +107,10 @@ def construye_paciente(nombres:List, apellidos:str, rut_param:str, ppn_param:str
     estado_civil.coding.append(cod)
     estado_civil.text = estados[estado_civil_param]["text"]
 
+    # Dirección del paciente
+
+    # Datos de contacto
+
     # Construcción del paciente
     pat.identifier = [rut, ppn]
     pat.birthDate = fecha_nacimiento    #date(year=2011, month=11, day=27)
@@ -125,13 +131,12 @@ pat = construye_paciente(["Antonia", "Emilia"], "de los Hoyos Leal", "23272864-7
 print(pat.json())
 print("----------------------")
 
-pat = construye_paciente(["Catalina", "Montserrat"], "de los Hoyos Leal", "23808281-1", "6304356", "S", date(year=2012, month=11, day=27), "female")
+pat = construye_paciente(["Catalina", "Montserrat"], "de los Hoyos Leal", "23808281-1", "6304356", "S", date(year=2011, month=11, day=27), "female")
 print(pat.json())
 print("----------------------")
 
 #r = requests.post(f"{conf.url_base}/Patient",
 #    data=pat.json(),
-#    #json=obs.dict(),
 #    auth=HTTPBasicAuth(conf.usuario, conf.password),
 #    headers={"Content-Type": "application/fhir+json"})
 #
